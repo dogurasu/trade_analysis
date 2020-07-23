@@ -3,7 +3,8 @@ import pandas, pathlib
 # get path to file
 # for windows vscode terminal - pandas.read_csv(str(pathlib.Path().parent.absolute()) + "\\trading_data\\7-22-2020\\7-22-2020.csv")
 path = str(pathlib.Path(__file__).parent.absolute())
-txt_path = path + "\\trading_data\\7-22-2020\\7-22-2020.csv"
+month, day = '7', '23'
+txt_path = path + f"\\trading_data\\{month}-{day}-2020\\{month}-{day}-2020.csv"
 
 # check out the data
 data = pandas.read_csv(txt_path)
@@ -18,7 +19,7 @@ exec_orders = {
     'time_filled': []
 }
 
-for arr in data.values:
+for arr in reversed(data.values):
     if arr[0] == 'Execute':
         exec_orders['order_type'].append(arr[1])
         exec_orders['ticker'].append(arr[2])
@@ -27,6 +28,8 @@ for arr in data.values:
         exec_orders['route'].append(arr[5])
         exec_orders['time_filled'].append(arr[6])
 
+# Implement Profit/Loss
+
 df = pandas.DataFrame(exec_orders, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled"])
 
-df.to_csv(path + "\\trading_data\\7-22-2020\\7-22-2020_altered.csv", index=False, header=True)
+df.to_csv(path + f"\\trading_data\\{month}-{day}-2020\\{month}-{day}-2020_altered.csv", index=False, header=True)
