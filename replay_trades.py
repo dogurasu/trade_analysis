@@ -1,4 +1,4 @@
-import pandas, pathlib
+import pandas, pathlib, sys
 
 # get path to file
 # for windows vscode terminal - pandas.read_csv(str(pathlib.Path().parent.absolute()) + "\\trading_data\\Replays\\5-13-2020\\INO\\replay_INO_5-13-2020.csv")
@@ -6,9 +6,11 @@ import pandas, pathlib
 # Make sure you go into Excel and sort your trades by Time before running this script
 
 path = str(pathlib.Path(__file__).parent.absolute())
-month, day, ticker = '5', '13', 'INO'
+month, day, ticker = sys.argv[1], sys.argv[2], sys.argv[3]
+# month, day, ticker = '5', '14', 'INO'
 
 txt_path = path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020.csv"
+
 # check out the data
 data = pandas.read_csv(txt_path)
 
