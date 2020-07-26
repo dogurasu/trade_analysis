@@ -36,6 +36,7 @@ for arr in data.values:
     exec_orders['time_filled'].append(arr[0])
 
 exec_orders = pandas.DataFrame(exec_orders, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled"])
+# exec_orders.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered.csv", index=False, header=True)
 
 # TODO
 # - Implement P&L Calculation after each trade
