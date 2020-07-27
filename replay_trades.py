@@ -92,7 +92,7 @@ while order < len(exec_orders.values):
     # if order == len(exec_orders.values):
     #     break
 
-print(len(f"len(completed['net_pl']): {completed['net_pl']}"))
+print(f"len(completed['net_pl']): {completed['net_pl']}")
 print(len(completed['net_pl']))
 
 # calculate net profits for the day (gross and w/ commissions)
