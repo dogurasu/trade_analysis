@@ -1,12 +1,12 @@
 import pandas, pathlib, sys, math
 
 # get path to file
-# for windows vscode terminal - pandas.read_csv(str(pathlib.Path().parent.absolute()) + "\\trading_data\\Replays\\5-20-2020\\INO\\replay_INO_5-20-2020--altered.csv")
+# for windows vscode terminal - pandas.read_csv(str(pathlib.Path().parent.absolute()) + "\\trading_data\\Replays\\5-20-2020\\INO\\replay_INO_5-20-2020.csv")
 
 # Make sure you go into Excel and sort your trades by Time before running this script
 
 path = str(pathlib.Path(__file__).parent.absolute())
-month, day, ticker = sys.argv[1], sys.argv[2], sys.argv[3]
+month, day, ticker, size_per_trade = sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4])
 # month, day, ticker = '5', '14', 'INO'
 
 txt_path = path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020.csv"
@@ -45,6 +45,8 @@ exec_orders = pandas.DataFrame(exec_orders, columns=["order_type", "ticker", "si
 #     - reset the counter and flag after calculating total profits or losses
 # - Calculate commissions for each trade (using CMEG's $0.50 minimum)
 
+# for windows vscode terminal - pandas.read_csv(str(pathlib.Path().parent.absolute()) + "\\trading_data\\Replays\\5-20-2020\\INO\\replay_INO_5-20-2020--altered.csv")
+
 # Implement Profit/Loss
 completed = {
     'order_type': [],
@@ -58,27 +60,55 @@ completed = {
 
 # this section of code calculates the net profits of each trade
 # it assumes that you aren't adding into any of your trades in terms of additional shares and that you get rid of all your shares you initially purchased/sold
-for order in range(len(exec_orders.values)):
+# num_orders = len(exec_orders.values)
+order = 0
+while order < len(exec_orders.values):
     # set the order type to Buy or Sell (or Shrt for live_trades)
     order_type = exec_orders.values[order][0]
     # record the total that the trade was initiated (100 shares * the price)
     price_filled = exec_orders.values[order][3]
-    shares_left = 100
+    # print(exec_orders.values[order])
+    # print(f'Order_type: {order_type}, Shares left: {shares_left}, price_filled: {price_filled}')
+    shares_left = size_per_trade
     net_profits = 0
     order += 1 # increment iterator to next row
     completed['net_pl'].append(0)
+    if order == len(exec_orders.values):
+        break
     # net_pl.append(0)
     while shares_left > 0:
-        if exec_orders.values[order][0] == 'Sell': # and assuming order_type is of 'Buy', A.K.A. 'Going Long'
+        # print(f'order: {order}')
+        if exec_orders.values[order][0] == 'Sell' and order_type == 'Buy': # assuming order_type is of 'Buy', A.K.A. 'Going Long'
             completed['net_pl'].append(round(exec_orders.values[order][2]*(exec_orders.values[order][3] - price_filled), 3)) # A ( C - B)
             # net_pl.append(round(exec_orders.values[order][2]*(exec_orders.values[order][3] - price_filled), 3))
-        if exec_orders.values[order][0] == 'Buy': # and assuming order_type is of 'Sell', A.K.A. 'Shorting'
+        if exec_orders.values[order][0] == 'Buy' and order_type == 'Sell': # assuming order_type is of 'Sell', A.K.A. 'Shorting'
             completed['net_pl'].append(round(exec_orders.values[order][2]*(price_filled - exec_orders.values[order][3]), 3)) # A ( B - C)
             # net_pl.append(round(exec_orders.values[order][2]*(price_filled - exec_orders.values[order][3]), 3))
-        shares_left += -exec_orders.values[order][2] # decrement size of order
+        shares_left -= exec_orders.values[order][2] # decrement size of order
         order += 1
-    if order == 39:
-        break
+        if order == len(exec_orders.values):
+            break
+    # print(f'after \'while\', order: {order}')
+    # if order == len(exec_orders.values):
+    #     break
+
+print(len(f"len(completed['net_pl']): {completed['net_pl']}"))
+print(len(completed['net_pl']))
+
+# calculate net profits for the day (gross and w/ commissions)
+net_profit = 0
+completed['gross_pl'], completed['commissioned_pl'] = [], []
+
+for sum in completed['net_pl']:
+    net_profit += sum
+    completed['gross_pl'].append(0)
+    completed['commissioned_pl'].append(0)
+
+completed['gross_pl'][0], completed['commissioned_pl'][0] = net_profit, net_profit - len(exec_orders)//2
+
+print(f"net_pl: {len(completed['net_pl'])}")
+print(f"gross_pl: {len(completed['gross_pl'])}")
+print(f"commissioned_pl: {len(completed['commissioned_pl'])}")
 
 # copy over exec_orders to completed
 for order in exec_orders.values:
@@ -89,8 +119,8 @@ for order in exec_orders.values:
     completed['route'].append(order[4])
     completed['time_filled'].append(order[5])
 
-completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl"])
+completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl", 'gross_pl', 'commissioned_pl'])
 
-completed.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered.csv", index=False, header=True)
+completed.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered_complete.csv", index=False, header=True)
 
 # completed.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020.csv")
