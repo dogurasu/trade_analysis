@@ -91,7 +91,7 @@ while order < len(exec_orders.values):
     # print(f'after \'while\', order: {order}')
     # if order == len(exec_orders.values):
     #     break
-
+print(f'num trades: {len(exec_orders.values)}')
 print(f"len(completed['net_pl']): {completed['net_pl']}")
 print(len(completed['net_pl']))
 
