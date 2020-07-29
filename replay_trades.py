@@ -62,6 +62,7 @@ completed = {
 # it assumes that you aren't adding into any of your trades in terms of additional shares and that you get rid of all your shares you initially purchased/sold
 # num_orders = len(exec_orders.values)
 order = 0
+num_trades = 0
 while order < len(exec_orders.values):
     # set the order type to Buy or Sell (or Shrt for live_trades)
     order_type = exec_orders.values[order][0]
@@ -73,6 +74,7 @@ while order < len(exec_orders.values):
     net_profits = 0
     order += 1 # increment iterator to next row
     completed['net_pl'].append(0)
+    num_trades += 1
     if order == len(exec_orders.values):
         break
     # net_pl.append(0)
@@ -97,18 +99,20 @@ print(len(completed['net_pl']))
 
 # calculate net profits for the day (gross and w/ commissions)
 net_profit = 0
-completed['gross_pl'], completed['commissioned_pl'] = [], []
+completed['gross_pl'], completed['commissioned_pl'], completed['num_trades'] = [], [], []
 
 for sum in completed['net_pl']:
     net_profit += sum
     completed['gross_pl'].append(0)
     completed['commissioned_pl'].append(0)
+    completed['num_trades'].append(0)
 
-completed['gross_pl'][0], completed['commissioned_pl'][0] = net_profit, net_profit - len(exec_orders)//2
+completed['gross_pl'][0], completed['commissioned_pl'][0], completed['num_trades'][0] = net_profit, net_profit - len(exec_orders)//2, num_trades
 
 print(f"net_pl: {len(completed['net_pl'])}")
 print(f"gross_pl: {len(completed['gross_pl'])}")
 print(f"commissioned_pl: {len(completed['commissioned_pl'])}")
+print(f'num_trades: {num_trades}')
 
 # copy over exec_orders to completed
 for order in exec_orders.values:
@@ -119,7 +123,7 @@ for order in exec_orders.values:
     completed['route'].append(order[4])
     completed['time_filled'].append(order[5])
 
-completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl", 'gross_pl', 'commissioned_pl'])
+completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl", 'gross_pl', 'commissioned_pl', 'num_trades'])
 
 completed.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered_complete.csv", index=False, header=True)
 
