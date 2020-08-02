@@ -38,6 +38,11 @@ for arr in data.values:
 exec_orders = pandas.DataFrame(exec_orders, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled"])
 # exec_orders.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered.csv", index=False, header=True)
 
+j = 0
+for i in exec_orders.values:
+    j += 1
+    print(f"{j}: {i}")
+
 # TODO
 # - Implement P&L Calculation after each trade
 #     - keep track of a flag for whether a new trade was started or not(buy or sell of 50 shares)
@@ -93,9 +98,10 @@ while order < len(exec_orders.values):
     # print(f'after \'while\', order: {order}')
     # if order == len(exec_orders.values):
     #     break
-print(f'num trades: {len(exec_orders.values)}')
-print(f"len(completed['net_pl']): {completed['net_pl']}")
-print(len(completed['net_pl']))
+# print(f'num trades: {len(exec_orders.values)}')
+# print(f'exec_orders: {exec_orders.values}')
+# print(f"len(completed['net_pl']): {completed['net_pl']}")
+# print(len(completed['net_pl']))
 
 # calculate net profits for the day (gross and w/ commissions)
 net_profit = 0
@@ -122,6 +128,19 @@ for order in exec_orders.values:
     completed['price_filled'].append(order[3])
     completed['route'].append(order[4])
     completed['time_filled'].append(order[5])
+
+# print(f'len of order_type: {len(completed["order_type"])}')
+# print(f'len of net_pl: {len(completed["net_pl"])}')
+# print(f'len of gross_pl: {len(completed["gross_pl"])}')
+# print(f'len of commissioned_pl: {len(completed["commissioned_pl"])}')
+# print(f'len of num_trades: {len(completed["num_trades"])}')
+# print(f'len of ticker: {len(completed["ticker"])}')
+# print(f'ticker: {completed["ticker"]}')
+# print(f'len of price_filled: {len(completed["price_filled"])}')
+# print(f'len of time_filled: {len(completed["time_filled"])}')
+
+for i in completed:
+    print(i)
 
 completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl", 'gross_pl', 'commissioned_pl', 'num_trades'])
 

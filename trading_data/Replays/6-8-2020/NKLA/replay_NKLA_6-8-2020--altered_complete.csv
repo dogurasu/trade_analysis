@@ -1,0 +1,8 @@
+order_type,ticker,size,price_filled,route,time_filled,net_pl,gross_pl,commissioned_pl,num_trades
+Sell,NKLA,100,40.62,SMAT,12:31:35,0,-7.5,-10.5,3
+Buy,NKLA,100,40.73,SMAT,12:31:42,-11,0,0,0
+Sell,NKLA,100,40.99,SMAT,12:34:48,0,0,0,0
+Buy,NKLA,25,40.83,SMAT,12:35:15,4,0,0,0
+Buy,NKLA,75,40.81,SMAT,12:35:25,13.5,0,0,0
+Sell,NKLA,100,40.42,SMAT,12:40:02,0,0,0,0
+Buy,NKLA,100,40.56,SMAT,12:40:14,-14,0,0,0
