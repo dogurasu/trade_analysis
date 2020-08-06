@@ -39,9 +39,9 @@ exec_orders = pandas.DataFrame(exec_orders, columns=["order_type", "ticker", "si
 # exec_orders.to_csv(path + f"\\trading_data\\Replays\\{month}-{day}-2020\\{ticker}\\replay_{ticker}_{month}-{day}-2020--altered.csv", index=False, header=True)
 
 j = 0
-for i in exec_orders.values:
-    j += 1
-    print(f"{j}: {i}")
+# for i in exec_orders.values:
+#     j += 1
+#     print(f"{j}: {i}")
 
 # TODO
 # - Implement P&L Calculation after each trade
@@ -107,6 +107,8 @@ while order < len(exec_orders.values):
 net_profit = 0
 completed['gross_pl'], completed['commissioned_pl'], completed['num_trades'] = [], [], []
 
+print(completed['net_pl'])
+
 for sum in completed['net_pl']:
     net_profit += sum
     completed['gross_pl'].append(0)
@@ -115,10 +117,10 @@ for sum in completed['net_pl']:
 
 completed['gross_pl'][0], completed['commissioned_pl'][0], completed['num_trades'][0] = net_profit, net_profit - len(exec_orders)//2, num_trades
 
-print(f"net_pl: {len(completed['net_pl'])}")
-print(f"gross_pl: {len(completed['gross_pl'])}")
-print(f"commissioned_pl: {len(completed['commissioned_pl'])}")
-print(f'num_trades: {num_trades}')
+# print(f"net_pl: {len(completed['net_pl'])}")
+# print(f"gross_pl: {len(completed['gross_pl'])}")
+# print(f"commissioned_pl: {len(completed['commissioned_pl'])}")
+# print(f'num_trades: {num_trades}')
 
 # copy over exec_orders to completed
 for order in exec_orders.values:
@@ -129,18 +131,18 @@ for order in exec_orders.values:
     completed['route'].append(order[4])
     completed['time_filled'].append(order[5])
 
-# print(f'len of order_type: {len(completed["order_type"])}')
-# print(f'len of net_pl: {len(completed["net_pl"])}')
-# print(f'len of gross_pl: {len(completed["gross_pl"])}')
-# print(f'len of commissioned_pl: {len(completed["commissioned_pl"])}')
-# print(f'len of num_trades: {len(completed["num_trades"])}')
-# print(f'len of ticker: {len(completed["ticker"])}')
+print(f'len of order_type: {len(completed["order_type"])}')
+print(f'len of net_pl: {len(completed["net_pl"])}')
+print(f'len of gross_pl: {len(completed["gross_pl"])}')
+print(f'len of commissioned_pl: {len(completed["commissioned_pl"])}')
+print(f'len of num_trades: {len(completed["num_trades"])}')
+print(f'len of ticker: {len(completed["ticker"])}')
 # print(f'ticker: {completed["ticker"]}')
-# print(f'len of price_filled: {len(completed["price_filled"])}')
-# print(f'len of time_filled: {len(completed["time_filled"])}')
+print(f'len of price_filled: {len(completed["price_filled"])}')
+print(f'len of time_filled: {len(completed["time_filled"])}')
 
-for i in completed:
-    print(i)
+# for i in completed:
+#     print(i)
 
 completed = pandas.DataFrame(completed, columns=["order_type", "ticker", "size", "price_filled", "route", "time_filled", "net_pl", 'gross_pl', 'commissioned_pl', 'num_trades'])
 

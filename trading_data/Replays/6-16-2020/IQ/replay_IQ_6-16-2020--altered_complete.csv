@@ -1,0 +1,13 @@
+order_type,ticker,size,price_filled,route,time_filled,net_pl,gross_pl,commissioned_pl,num_trades
+Sell,IQ,100,25.69,SMAT,12:31:58,0,-40.31,-46.31,5
+Buy,IQ,25,25.52,SMAT,12:32:09,4.25,0,0,0
+Buy,IQ,18,25.41,SMAT,12:33:04,5.04,0,0,0
+Buy,IQ,57,25.49,SMAT,12:33:10,11.4,0,0,0
+Sell,IQ,100,25.01,SMAT,12:36:56,0,0,0,0
+Buy,IQ,100,25.04,SMAT,12:37:17,-3,0,0,0
+Sell,IQ,100,24.63,SMAT,12:40:26,0,0,0,0
+Buy,IQ,100,24.73,SMAT,12:41:19,-10,0,0,0
+Buy,IQ,100,25.1,SMAT,12:44:06,0,0,0,0
+Sell,IQ,100,24.83,SMAT,12:44:57,-27,0,0,0
+Buy,IQ,100,25.09,SMAT,12:45:27,0,0,0,0
+Sell,IQ,100,24.88,SMAT,12:45:55,-21,0,0,0
