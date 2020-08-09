@@ -1,6 +1,8 @@
 data_analysis_env
 June_20202.xlsx
 *.mp4
+*.mkv
+*.zip
 spreadsheets
 *.md
 code_graveyard.py
