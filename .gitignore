@@ -10,3 +10,6 @@ finviz top gainers
 fundamentals
 trading_data*
 stats
+env
+
+stockscrape/.env
